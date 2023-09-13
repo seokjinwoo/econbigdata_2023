@@ -4,8 +4,44 @@
 # moving to the directory 
 # ctrl + shift + h
 
-# check the current diretory
+# check the current directory
 # getwd()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
