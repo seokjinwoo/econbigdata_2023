@@ -1,6 +1,7 @@
 # 경제빅데이터분석 2023
 
-명지대 경제학과 ![배지의 설명](https://img.shields.io/badge/경제-빅데이터분석론-blue)
+명지대 경제학과 
+![코스이름](https://img.shields.io/badge/경제-빅데이터분석론-blue)
 
  페이지입니다. 
 
