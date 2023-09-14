@@ -1,6 +1,7 @@
 # 경제빅데이터분석 2023
 
-명지대 경제학과 ![Static Badge](https://img.shields.io/badge/%EA%B2%BD%EC%A0%9C%EB%B9%85%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B6%84%EC%84%9D%EB%A1%A0
+명지대 경제학과 ![배지의 설명](https://img.shields.io/badge/경제-빅데이터분석론-blue)
+
  페이지입니다. 
 
 > 2023년 2학기 동안 저와 함께 R을 이용하여 경제분석에서 자주 사용되는 빅데이터를 다루는 법을 배우겠습니다. 
