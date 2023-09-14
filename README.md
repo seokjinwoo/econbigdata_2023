@@ -62,7 +62,7 @@
 
 ---
 
-## 🔗 R과 Rstuido 의 설치
+## R과 Rstuido 의 설치
 
 - [R의 설치](https://cloud.r-project.org/)
 - [Rstudio의 설치](https://posit.co/products/open-source/rstudio/)
