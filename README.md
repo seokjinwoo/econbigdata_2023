@@ -43,10 +43,10 @@
 
 | 주 | 내용 | 비고 |
 | --- | --- | --- |
-| 1 | 오리엔테이션, R, Rstudio 설치 | |
-| 2 | R 기본 문법 | |
+| 1 | 오리엔테이션, R, Rstudio 설치 |  |
+| 2 | R 기본 문법 | scalar, vector, matrix |
 | 3 | R 기본 문법 | |
-| 4 | R 기본 문법 | |
+| 4 | R 기본 문법 | dplyr |
 | 5 | EDA 및 요약통계량 작성 | tidyverse |
 | 6 | ggplot2 소개 | |
 | 7 | ggplot2 소개 계속 | |
