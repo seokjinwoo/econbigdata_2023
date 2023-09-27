@@ -316,6 +316,202 @@ is.logical(1>0)
 
 set.seed(123456)
 rnorm(10)
+rnorm(n = 10, mean = 2, sd = 2)
+
+rchisq(n = 10, df = 5)
+
+# sampling 표집 
+s <- c(1:10)
+print(s)
+
+set.seed(123456)
+sample(s, size = 5)
+
+# sampling without replacement
+set.seed(123456)
+sample(s, size = 10)
+
+# sampling with replacement 
+set.seed(123456)
+sample(s, size = 5, replace = TRUE)
+
+# a~j
+# sample 5 letters with replacement
+s =c("a","b","c")
+set.seed(123456)
+sample(s, size = 5, replace = TRUE)
+
+set.seed(123456)
+sample(c("red","blue"),
+       size = 5,
+       replace = TRUE,
+       prob = c(0.7, 0.3))
+
+# COVID-19, 
+# 감염/비감염
+# n = 30
+# Pr(감염) = 0.1 
+
+set.seed(123456)
+p <- 0.4
+sample(c("감염","비감염"),
+       size = 30,
+       replace = TRUE,
+       prob = c(p, 1-p))
+
+## programming
+
+# if 조건문 , for-loop 반복 
+# 
+# if (조건) {
+#   task1 
+# } else {
+#   task2 
+# }
+
+set.seed(1234567)
+x.r <- rnorm(n = 20)
+print(x.r)
+
+set.seed(1)
+if (rnorm(1) > 0) {
+  print("The sum is ")
+  sum(x.r) # 합
+} else {
+  print("The mean is ")
+  mean(x.r)
+}
+
+# for-loop 반복 
+# 직관적, 느려, purrr::map(), apply()
+
+for (year in c(2010:2015)) {
+  print(paste("The year is ", year))
+}
+
+# if & for-loop
+
+# even-number 짝수 
+for (i in 1:10) {
+  if (i %% 2) { # 나머지가 있으면 
+    next
+  } 
+  print(i)
+}
+
+# print odd-numbers in 1:10 
+# !: not 
+# 집합과 명제 
+for (i in 1:10) {
+  if (!i %% 2) { # 나머지가 있으면 
+    next
+  } 
+  print(i)
+}
+
+## data 를 만진다. 
+## iris 붓꽃 Fisher, F-분포
+## Palmer penguins
+## mtcars 자동차에 대한 데이터 
+
+data("iris")
+
+# collect the numeric columns
+
+# 1. 빈바구니 준비(o)
+# 2. for-loop as many as the # of columns(o)
+# 3. numeric?
+# 4. yes: collect, no: next column
+
+
+iris_num <- NULL 
+for (i in 1:ncol(iris)) {
+  if (is.numeric(iris[,i])) {
+   iris_num <- cbind(iris_num, iris[,i])  
+  }
+}
+
+iris_num <- data.frame(iris_num)
+head(iris_num)
+tail(iris_num)
+
+# apply()
+# purrr::map()
+sapply(iris, is.numeric)
+iris_num <- iris[ ,sapply(iris, is.numeric)]
+head(iris_num)
+
+# function 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
