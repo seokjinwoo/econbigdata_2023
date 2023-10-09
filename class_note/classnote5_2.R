@@ -596,10 +596,8 @@ library("dplyr")
 
 rm(list = ls())
 library("dplyr")
-library("readr")
-lfp <- readr::read_csv("laborforce.csv",
-                   locale=locale('ko',
-                                 encoding='cp949'))
+lfp <- read.csv("laborforce.csv",
+         header = TRUE)
 
 
 
