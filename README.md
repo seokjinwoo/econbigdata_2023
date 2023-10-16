@@ -48,8 +48,8 @@
 | 3 | R 기본 문법 | function, loop, apply |
 | 4 | R 기본 문법 | dplyr |
 | 5 | EDA 및 요약통계량 작성 | tidyverse |
-| 6 | ggplot2 소개 | |
-| 7 | ggplot2 소개 계속 | |
+| 6 | ggplot2 소개 |visualization 1 |
+| 7 | ggplot2 소개 계속 | visualization 2|
 | 8 | 중간고사 | |
 | 9 | 회귀분석  | |
 | 10 | 회귀분석 | |
