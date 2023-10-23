@@ -229,14 +229,26 @@ auto %>%
   scale_fill_brewer(palette = "Set1")
 
 # transform price into log-price
+library("ggtext")
+
 auto %>% 
   mutate(log_price = log(price)) %>% 
   ggplot(mapping = aes(x = log_price,
                        y = ..density..,
                        fill = foreign)) +
-  geom_histogram(alpha=0.5) +
+  geom_histogram(alpha=0.5, color = 'gray') +
   stat_density(geom = "line") +
-  scale_fill_brewer(palette = "Set1")
+  scale_fill_brewer(palette = "Set1") +
+  labs(
+    title = "**로그-가격**의 분포",
+    subtitle = "*미국자동차*"
+  ) +
+  theme(
+    plot.title = element_markdown(),
+    plot.subtitle = element_markdown()
+  )
+    
+  
 
 
 
