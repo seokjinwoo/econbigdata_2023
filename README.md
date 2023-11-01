@@ -50,7 +50,7 @@
 | 5 | EDA 및 요약통계량 작성 | tidyverse |
 | 6 | ggplot2 소개 |visualization 1 |
 | 7 | ggplot2 소개 계속 | visualization 2|
-| 8 | 중간고사 |https://rpubs.com/beejo/1107101 |
+| 8 | 중간고사 |10월 30일, 11월 1일 |
 | 9 | 회귀분석  | |
 | 10 | 회귀분석 | |
 | 11 | 시계열분석 | |
