@@ -1,0 +1,107 @@
+---
+title: "note9_1"
+format: html
+editor: visual
+---
+
+# EDA (Explaratory Data Analysis)
+
+-   데이터 읽어 들이기
+
+-   ctrl + alt + I: code chunk (code block)
+
+```{r}
+rm(list = ls())
+read.csv("auto.csv", header = TRUE) -> auto
+```
+
+## 분포
+
+### 히스토그램
+
+-   필요한 라이브러리 로딩
+
+```{r}
+library(tidyverse)
+```
+
+-   price 의 히스토그램
+
+```{r}
+auto %>% 
+  ggplot(mapping=aes(x = price)) +
+  geom_histogram(fill = "black",
+                 col  = "grey")
+```
+
+-   log-normal 분포
+
+-   log-transformation 변환
+
+```{r}
+auto %>% 
+  mutate(log_price = log(price)) %>% 
+  ggplot(mapping= aes(x = log_price)) +
+  geom_histogram(fill = "blue") +
+  labs(
+    x = "log-price"
+  ) 
+```
+
+## 상관관계 
+
+-   $y_i = a + b x_i + e_i$
+
+-   $y$ 는 종속변수, dependent variable.
+
+-   $x$ 는 독립변수, independent variable
+
+-   $y$를 $x$ 로 설명한다.
+
+-   $e$ 는 오차항 error term
+
+-   $b$ : 우리의 관심 대상. $b = 0$ 이것이 우리의 귀무가설. null hypothesis.
+
+-   Statistical inference should be conservative.
+
+-   type-I error: false positive
+
+-   산포도. scatter-plot
+
+```{r}
+auto %>% 
+  ggplot(mapping = aes(x = mpg, y = price)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
+-   foreign 값에 따라서 다른 색으로 산포도와 추세선을 그리시오.
+
+```{r}
+auto %>% 
+  ggplot(aes(x = mpg, 
+             y = price,
+             color = foreign)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  scale_color_brewer(palette = "Set2") +
+  theme_classic() +
+  facet_wrap(~foreign)
+```
+
+-   joint distribution (mpg, price)
+
+-   marginal distribution, ggExtra
+
+```{r}
+library("ggExtra")
+
+auto %>% 
+  ggplot(aes(x = mpg, y = price)) +
+  geom_point() -> fig1
+
+ggMarginal(fig1,
+           type = "histogram",
+           margins = "both",
+           size = 5)
+```
