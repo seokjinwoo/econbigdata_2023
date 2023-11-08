@@ -1,0 +1,122 @@
+---
+title: "note9_2"
+format: html
+editor: visual
+---
+
+# EDA (Explaratory Data Analysis)
+
+## 탐색적 데이터 분석
+
+-   데이터 불러들임.
+
+-   code block. code chunk.
+
+-   ctrl + alt + I: code chunk
+
+```{r}
+rm(list = ls())
+
+auto <- read.csv(file.choose(), 
+         header = TRUE)
+```
+
+-   어떤 데이터인지.
+
+-   structure
+
+```{r}
+str(auto)
+```
+
+-   summary statistics(요약통계량) 를 살펴본다.
+
+```{r}
+# summary(auto)
+summary(auto$price)
+```
+
+## 분포 distribution - 히스토그램
+
+```{r}
+auto %>% 
+  ggplot(aes(x = price)) + 
+  geom_histogram(fill= "black",
+                 col = "grey")
+
+auto %>% 
+  ggplot(aes(x = price, 
+             fill = foreign)) +
+  geom_histogram() +
+  scale_fill_brewer(palette = "Set1")
+
+
+```
+
+-   price -\> log(price)
+
+```{r}
+auto %>% 
+  ggplot(aes(x = log(price))) + 
+  geom_histogram(fill= "black",
+                 col = "grey") +
+  labs(
+    x = "log(price)"
+  )
+  
+```
+
+## 상관관계 correlation
+
+-   LaTex math equation
+
+-   $y_i = a + b x_i + e_i$ Regression model. 회귀모형
+
+-    $y$ : 종속변수 dependent variable
+
+-   $x$ : 독립변수 independent variable
+
+-   $e$ : 오차항 error term
+
+-   $b$ is our focal point.
+
+## 산포도. scatter-plot
+
+-   price & mpg(miles per gallon, 연비)
+
+```{r}
+auto %>% 
+  ggplot(aes(x = mpg, y = price))+
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
+-   foreign 값에 따라서 다른 색으로
+
+```{r}
+auto %>% 
+  ggplot(aes(x = mpg, 
+             y = price,
+             color = foreign))+
+  geom_point() +
+  geom_smooth(method = "lm") +
+  facet_wrap(~foreign)
+```
+
+-   ggExtra 패키지 이용해서, marginal distribution을 같이 표현한다.
+
+```{r}
+library(ggExtra)
+
+auto %>% 
+  ggplot(aes(x = mpg, y = price))+
+  geom_point() +
+  theme(legend.position = "none") -> fig1
+
+ggMarginal(fig1,
+           type = "histogram",
+           margins = "both",
+           size = 5)
+
+
+```
