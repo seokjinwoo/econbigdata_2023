@@ -1,0 +1,111 @@
+---
+title: "Note10_2"
+format: html
+editor: visual
+execute: 
+  warning: false
+---
+
+## Regression 회귀분석
+
+-   경제 데이터 분석: 시작과 끝.
+
+-   기계학습, 인공지능, 심화학습, GPT(transformer)
+
+-   regression model 회귀모형
+
+$$
+y_i = \beta_0 + \beta_1 x_i + \epsilon_i
+$$
+
+-   $y$: 종속변수(dependent), 피설명변수(explained)
+
+-   $x$: 독립변수(independent), 설명변수(explanatory)
+
+-   $\epsilon$: 오차항, unexplained
+
+-   $\beta_1 =0$ 이게 우리의 타겟. test 검정. 귀무가설. null hypothesis.
+
+-   estimator
+
+-   OLS (ordinary least square estimator)
+
+-   MLE (maximum likelihood estimator)
+
+$\epsilon_1, \epsilon_2, \dots,  \epsilon_n$ 이것들이 작아져야 한다.
+
+-   SSE (sum of squared errors)
+
+$$
+SSE = \sum_{i} \epsilon_{i}^2
+$$
+
+-   민서 타입의 임금방정식(Mincerian wage equation)
+
+$$
+\ln(w_i) = \beta_0 + \beta_1 edu_i + \beta_2 exp_i + e_i
+$$
+
+-   교육의 수익률: return to schooling
+
+-   exp 통제한다(control for), 통제변수
+
+-   $\beta_1$ 교육의 순효과 pure effect
+
+## 단순회귀모형 simple regression model 
+
+-   $x$가 1개
+
+```{r}
+rm(list = ls())
+library("tidyverse")
+
+ceosal <- readr::read_csv(
+  file = "ceosal1.csv",  
+  col_names = TRUE)
+
+```
+
+-   CEO의 연봉에 대한 데이터
+
+-   CEO 연봉의 결정요인들을 찾아내려고 함.
+
+-   salary & 기업의 성과(수익성 roe: return on equity)
+
+-   산포도와 추세선 (salary & roe)
+
+```{r}
+ceosal %>% 
+  ggplot(aes(x = roe, y = salary))+
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
+-   statistical test 검정
+
+-   regression
+
+$$
+salary_i= a + b \times roe_i + e_i
+$$
+
+-   $b=0$ 에 관심이 있음.
+
+-   회귀모형 추정(OLS)을 통해 $b$를 추정하고 검정해야 됨.
+
+```{r}
+lm.roe <- lm(salary ~ roe, data = ceosal)
+
+summary(lm.roe)
+
+```
+
+```{r}
+library("stargazer")
+
+stargazer(lm.roe,
+          type = "text",
+          keep.stat = c("n","rsq"))
+
+
+```

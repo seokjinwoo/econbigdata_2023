@@ -1,0 +1,115 @@
+---
+title: "Note10_1"
+format: html
+editor: visual
+execute: 
+  warning: false
+---
+
+## Regression 회귀분석
+
+-   실증경제학에서는 꽃
+
+-   Machine Learning (regression)
+
+-   Recommendation. Logistic regression. Classfication(분류)
+
+-   Deep Learning
+
+-   Large Language Model (LLM). Chat GP**T** (transformer)
+
+-   회귀모형regression model
+
+$$
+y_i = \beta_0 + \beta_1 x_i + \epsilon_i
+$$
+
+-   $y$ : 피설명변수, explained variable
+
+-   $x$: 설명변수, explanatory variable
+
+-   $\epsilon$ : 오차, error term
+
+-   우리의 관심 $\beta_1 = 0$ 에 있는 거지.
+
+-   estimator 추정량.
+
+-   과녁. 총.
+
+-   OLS (ordinary least square estimation)
+
+-   MLE (maximum likelihood estimation)
+
+-   기타 등등.
+
+## OLS ordinary least square
+
+-   least square 최소자승(제곱) 추정법
+
+-   sum of squared errors (SSE) 최소
+
+$$
+\sum_{i} \epsilon_i^2
+$$
+
+-   Mincerian wage equation (민서 타입의 임금 방정식)
+
+$$
+\ln(w_i) = \beta_0 + \beta_1 edu_i + \beta_2 exp_i + e_i
+$$
+
+-   exp: 통제 control variable
+
+## Simple regression 단순회귀
+
+-   1개의 regressor (x)
+
+-   데이터 로딩 "ceosal1.csv"
+
+```{r}
+rm(list = ls())
+library("tidyverse")
+
+readr::read_csv("ceosal1.csv", col_names = TRUE, show_col_types = FALSE) -> ceosal
+
+# str(ceosal)
+```
+
+-   x 축에다 roe (return on equity), 수익률
+
+-   y 축에다 salary (CEO의 연봉)으로 하는 산포도
+
+```{r}
+ceosal %>% 
+  ggplot(aes(x = roe, y = salary)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
+-   positive correlation between roe and salary
+
+-   Is it statistically significant? 통계적으로 유의한가? 회구분석.
+
+-   $$
+    salary_i = a + b \times roe_i + e_i
+    $$
+
+-   $b=0$ 인지를 test 검정하는 것임.
+
+-   귀무가설. the null-hypothesis
+
+```{r}
+lm.roe <- lm(salary ~ roe, data = ceosal)
+
+summary(lm.roe)
+```
+
+```{r}
+library("stargazer")
+
+stargazer(lm.roe, 
+          type = "text",
+          keep.stat = c("n","rsq"))
+
+
+```

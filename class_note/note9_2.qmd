@@ -72,7 +72,7 @@ auto %>%
 
 -   $y_i = a + b x_i + e_i$ Regression model. 회귀모형
 
--    $y$ : 종속변수 dependent variable
+-   $y$ : 종속변수 dependent variable
 
 -   $x$ : 독립변수 independent variable
 
