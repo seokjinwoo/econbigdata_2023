@@ -1,0 +1,153 @@
+---
+
+title: "note11_1"
+format: html
+editor: visual
+---
+
+## Simple Regression 단순회귀 
+
+-   단순회귀 (LaTex)
+
+$$
+y_i = \beta_0 + \beta_1 x_i + e_i
+$$
+
+-   $y$를 $x$ 로 설명한다.
+
+-   Machine Learning
+
+-   OLS: $\sum_i e_i ^2$ 을 최소화 하도록 $\beta_0, \beta_1$ 을 추정한다(estimation). 훈련시킨다(training)
+
+```{r}
+rm(list = ls()) 
+library("tidyverse")  
+readr::read_csv("ceosal1.csv", col_names = TRUE, show_col_types = FALSE) -> ceosal  # str(ceosal)
+```
+
+-   x 축에다 roe (return on equity), 수익률
+
+-   y 축에다 salary (CEO의 연봉)으로 하는 산포도
+
+```{r}
+ceosal %>%    
+  ggplot(aes(x = roe, y = salary)) +   
+  geom_point() +   
+  geom_smooth(method = "lm")
+```
+
+-   positive correlation between roe and salary
+
+-   Is it statistically significant? 통계적으로 유의한가? 회구분석.
+
+-   $$ salary_i = a + b \times roe_i + e_i $$
+
+-   $b=0$ 인지를 test 검정하는 것임.
+
+-   귀무가설. the null-hypothesis
+
+```{r}
+lm.roe <- lm(salary ~ roe, data = ceosal)  
+summary(lm.roe)
+```
+
+-   critical value = 1.96, 2. 5% significance level (유의수준). 1종 오류. type-I error. false positive.
+
+-   most powerful test
+
+```{r}
+library("stargazer")  
+stargazer(lm.roe,            type = "text",           keep.stat = c("n","rsq"))  
+```
+
+-   salary 를 roe 로 설명하려고 했는데, 통계적으로 유의하지 않음. 설명이 잘 안됨.
+
+-   roe 복잡하다. profit/equity. 조금 더 직관적인 성과지표가 있지 않을까?
+
+-   sales 매출.
+
+-   **sales** & **salary**와의 관계를 산포도로.
+
+```{r}
+ceosal %>%    
+  ggplot(aes(x = sales, y = salary)) +   
+  geom_point() +   
+  geom_smooth(method = "lm")
+```
+
+-   filter: 0\<= sales \<- 25000, 0 \<= salary \<= 5000
+
+```{r}
+ceosal %>%  
+  filter(sales <= 25000 & salary <= 5000) %>% 
+  ggplot(aes(x = sales, y = salary)) +   
+  geom_point() +   
+  geom_smooth(method = "lm")
+```
+
+-   lsalary & lsales 산포도
+
+```{r}
+ceosal %>%    
+  ggplot(aes(x = lsales, y = lsalary)) +   
+  geom_point() +   
+  geom_smooth(method = "lm")
+```
+
+-   log-log (trans) model
+
+$$
+\log(salary_i)=\beta_0 + \beta_1 \log(sales_i) + e_i
+$$
+
+-   단순회귀모형을 추정 lm()
+
+    ```{r}
+    lm.sales <- lm(lsalary ~ lsales, data = ceosal)  
+    summary(lm.sales)
+    ```
+
+```{r}
+stargazer::stargazer(lm.sales, type = "text", 
+                     keep.stat = c("n", "rsq"))
+```
+
+## 다중회귀 multiple regression 
+
+-   $x$ 가 2개 이상. \~2000천개 정도도 보통 많이 포함시켜.
+
+-   language model
+
+```{r}
+rm(list = ls())
+
+gpa <- read.csv("gpa1.csv", header = TRUE, sep = "\t")
+attach(gpa)
+
+str(gpa)
+```
+
+-   입학사정관 admission officer
+
+-   hsGPA & colGPA 의 관계? male 값에 따라서 다른 색.
+
+```{r}
+gpa %>% 
+  mutate(male = factor(male)) %>% 
+  ggplot(mapping = aes(x = hsGPA, y = colGPA, color = male)) +
+  geom_jitter() +
+  geom_smooth(method = "lm")
+```
+
+-   단순회귀분석,
+
+```{r}
+lm.hsGPA <- lm(colGPA ~ hsGPA, data = gpa)
+lm.act <- lm(colGPA ~ hsGPA + ACT, data = gpa)
+```
+
+-   추정결과를 정리
+
+```{r}
+stargazer::stargazer(lm.hsGPA, lm.act, type = "text", keep.stat = c("n","rsq"))
+```
