@@ -32,7 +32,7 @@ $$
 
 -   MLE (maximum likelihood estimator)
 
-$\epsilon_1, \epsilon_2, \dots,  \epsilon_n$ 이것들이 작아져야 한다.
+$\epsilon_1, \epsilon_2, \dots, \epsilon_n$ 이것들이 작아져야 한다.
 
 -   SSE (sum of squared errors)
 
@@ -52,7 +52,7 @@ $$
 
 -   $\beta_1$ 교육의 순효과 pure effect
 
-## 단순회귀모형 simple regression model 
+## 단순회귀모형 simple regression model
 
 -   $x$가 1개
 
