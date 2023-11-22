@@ -1,0 +1,169 @@
+---
+title: "Note10_2"
+format: html
+editor: visual
+execute: 
+  warning: false
+---
+
+## 단순회귀분석
+
+-   $x$가 1개인 것.
+
+```{r}
+rm(list = ls())
+library("tidyverse")
+
+ceosal <- readr::read_csv(
+  file = "ceosal1.csv",  
+  col_names = TRUE)
+
+```
+
+-   CEO의 연봉에 대한 데이터
+
+-   CEO 연봉의 결정요인(determinant)들을 찾아내려고 함.
+
+-   salary & 기업의 성과(수익성 **roe**: return on equity)
+
+-   산포도와 추세선 (salary & roe)
+
+```{r}
+ceosal %>% 
+  ggplot(aes(x = roe, y = salary))+
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
+-   statistical test 검정
+
+-   regression
+
+$$
+salary_i= a + b \times roe_i + e_i
+$$
+
+-   $b=0$ 에 관심이 있음.
+
+-   회귀모형 추정(OLS)을 통해 $b$를 추정하고 검정(검증X)해야 됨.
+
+```{r}
+lm.roe <- lm(salary ~ roe, data = ceosal)
+
+summary(lm.roe)
+
+```
+
+```{r}
+library("stargazer")
+
+stargazer(lm.roe,
+          type = "text",
+          keep.stat = c("n","rsq"))
+
+
+```
+
+-   ROE: return (영업이익) on equity (자기자본)
+
+-   sales 매출
+
+-   salary & sales 의 관계(산포도, 추세선)
+
+```{r}
+ceosal %>% 
+  ggplot(aes(x = sales, y = salary))+
+  geom_point() +
+  geom_smooth(method = "lm") 
+```
+
+-   lsales & lsalary 를 이용해서 산포도와 추세선
+
+```{r}
+ceosal %>% 
+  ggplot(aes(x = lsales, y = lsalary))+
+  geom_point() +
+  geom_smooth(method = "lm") 
+```
+
+-   회귀모형
+
+$$
+\log(salary_i) = \beta_0 + \beta_1 \log(sales_i ) + e_i
+$$
+
+-   회귀모형을 추정하고 결과 보고. (lsalary \~ lsales)
+
+```{r}
+lm.sales <- lm(lsalary ~ lsales, data = ceosal)
+
+stargazer::stargazer(lm.sales,
+                     type = "text",
+                     keep.stat = c("n", "rsq"))
+```
+
+-   log-log model (trans-log model): 탄력성 elasticity
+
+-   elasticity = 1: unit-elastic,
+
+-   \<1: inelastic, \>1: elastic
+
+## 다중회귀모형 multiple regression 
+
+-   $x$가 2개 이상.
+
+-   openAI, chatGPT
+
+-   Sam Altman
+
+-   large language model
+
+-   추정(estimation), 훈련(train)
+
+-   transformer, generative pre-trained transformer (GPT)
+
+    ```{r}
+    rm(list = ls())
+    gpa <- read.csv("gpa1.csv", header = TRUE,
+             sep = "\t")
+    ```
+
+-   대학생 성적 data
+
+    ```{r}
+    str(gpa)
+    ```
+
+-   입학사정관 admission officer
+
+-   고등학교 내신 hsGPA & 대학교 성적 colGPA 간의 관계.
+
+```{r}
+gpa %>% 
+  ggplot(aes(x = hsGPA, y = colGPA)) +
+  geom_jitter() +
+  geom_smooth(method = "lm")
+```
+
+-   male 변수를 이용해서 다른 색으로 표시한다.
+
+```{r}
+gpa %>% 
+  ggplot(aes(x = hsGPA, y = colGPA,
+             color = as.factor(male))) +
+  geom_jitter() +
+  geom_smooth(method = "lm")
+```
+
+-   regression
+
+```{r}
+
+lm.hsGPA <- lm(colGPA ~ hsGPA, data = gpa)
+lm.act <- lm(colGPA ~ hsGPA + ACT, data=gpa)
+
+stargazer::stargazer(lm.hsGPA,
+                     lm.act,
+                     type = "text",
+                     keep.stat = c("n","rsq"))
+```
