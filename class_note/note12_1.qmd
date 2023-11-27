@@ -1,0 +1,177 @@
+---
+title: "note12_1"
+format: 
+  pdf:
+    latex-engine: xelatex
+    mainfont: "NanumGothic"  # 예시로 나눔고딕 폰트를 사용
+editor: visual
+execute: 
+  warning: false
+---
+
+## Regression
+
+-   simple regression(단순회귀)
+
+-   multiple regression(다중회귀). 설명변수 2개.
+
+-   교육수익률 추정(return to schooling)
+
+$$
+\log(w_i) = \beta_0 + \beta_1 edu_i + \gamma Z_i + e_i
+$$
+
+```{r}
+rm(list = ls())
+library("tidyverse")
+
+labor_supply <- readr::read_csv("labor_supply.csv") 
+
+str(labor_supply)
+```
+
+-   w2edu를 numeric으로 되어 있는 것은 factor 변수로 전환한다. 레이블을 달아.
+
+```{r}
+labor_supply$w2edu <- factor(
+  labor_supply$w2edu,
+  labels = c(
+    "무학",
+    "초졸",
+    "중졸",
+    "고졸",
+    "전문대졸",
+    "4년제대졸",
+    "석사",
+    "박사"
+  )
+)
+
+table(labor_supply$w2edu)
+```
+
+-   wage 의 히스토그램
+
+```{r}
+labor_supply %>% 
+  ggplot(mapping = aes(x = wage))+
+  geom_histogram()+
+  labs(
+    x = "wage"
+  )
+```
+
+-   hourly wage: 시간당 임금
+
+```{r}
+labor_supply %>% 
+  ggplot(aes(x = wage_hourly))+
+  geom_histogram(
+    alpha = 0.5,
+    fill  = "white",
+    color = "black"
+  )+
+  labs(
+    x = "hourly wage"
+  )
+```
+
+-   로그-시간당 임금, $\log(w_i)$ 의 히스토그램
+
+```{r}
+labor_supply %>% 
+  ggplot(aes(x = ln_wage_hourly)) +
+  geom_histogram(aes(y = ..density..),
+                 color = "black",
+                 fill = "white") +
+  geom_density(alpha = 0.2,
+               fill = "#FF6666",
+               color = "#FF6666") +
+  labs(
+    x = "hourly wage"
+  )
+```
+
+-   age-wage profile
+
+-   가로축: 연령, age
+
+-   세로축: ln_wage_hour
+
+-   산포도. w2edu 값마다 다른 색으로.
+
+```{r}
+labor_supply %>% 
+  ggplot(aes(x = age, y = ln_wage_hourly)) +
+  geom_point(aes(color = w2edu),
+             alpha = 0.6,
+             size  = 3) +
+  scale_color_brewer(palette = "RdYlBu")
+```
+
+```{r}
+labor_supply %>% 
+  ggplot(aes(x = age, y = ln_wage_hourly)) +
+  geom_point(aes(color = w2edu),
+             alpha = 0.6,
+             size  = 3) +
+  geom_smooth(method   = "glm",       # 일반선형형
+              formula  = y~poly(x,2), # 2차 형식
+              se       = FALSE,       # 신뢰구간
+              linetype = "dashed") +  # 점선
+  scale_color_brewer(palette = "RdYlBu")
+```
+
+-   regression estimation by OLS
+
+-   estimating the baseline models
+
+```{r}
+lm.1 <- lm(ln_wage_hourly ~ age, 
+           data = labor_supply)
+
+# I stands for isolation
+lm.2 <- lm(ln_wage_hourly ~ age + I(age^2), 
+           data = labor_supply)
+
+```
+
+```{r}
+library("stargazer")
+
+stargazer::stargazer(lm.1, lm.2,
+                     type = "text",
+                     keep.stat = c("n","rsq"))
+```
+
+-   연령제곱이 음수(-): 연령의 한계수익이 체감.
+
+-   diminishing marginal contribution.
+
+-   baseline model + education
+
+```{r}
+labor_supply %>% 
+  group_by(w2edu) %>% 
+  summarise(count = n())
+```
+
+-   factor variable: 다중공선성(multicollinearity problem).
+
+-   범주의 갯수-1 만큼의 더미변수(dummy variable)가 포함되어야 함
+
+```{r}
+lm.3 <- lm(
+  ln_wage_hourly ~ age + I(age^2) + w2edu,
+  data = labor_supply
+  )
+
+lm.4 <- lm(
+  ln_wage_hourly  ~ age + I(age^2) + educ_year,
+  data = labor_supply
+)
+
+stargazer(lm.3, lm.4, 
+          type = "text",
+          keep.stat = c("n", "rsq"))
+```
