@@ -108,7 +108,7 @@ stargazer::stargazer(lm.sales,
 
 -   \<1: inelastic, \>1: elastic
 
-## 다중회귀모형 multiple regression 
+## 다중회귀모형 multiple regression
 
 -   $x$가 2개 이상.
 

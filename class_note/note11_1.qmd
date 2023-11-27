@@ -1,11 +1,8 @@
----
+------------------------------------------------------------------------
 
-title: "note11_1"
-format: html
-editor: visual
----
+title: "note11_1" format: html editor: visual ---
 
-## Simple Regression 단순회귀 
+## Simple Regression 단순회귀
 
 -   단순회귀 (LaTex)
 
@@ -112,7 +109,7 @@ stargazer::stargazer(lm.sales, type = "text",
                      keep.stat = c("n", "rsq"))
 ```
 
-## 다중회귀 multiple regression 
+## 다중회귀 multiple regression
 
 -   $x$ 가 2개 이상. \~2000천개 정도도 보통 많이 포함시켜.
 
