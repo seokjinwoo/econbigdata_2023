@@ -161,6 +161,7 @@ labor_supply %>%
 -   범주의 갯수-1 만큼의 더미변수(dummy variable)가 포함되어야 함
 
 ```{r}
+#| echo: true
 lm.3 <- lm(
   ln_wage_hourly ~ age + I(age^2) + w2edu,
   data = labor_supply
