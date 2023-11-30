@@ -1,0 +1,162 @@
+---
+title: "note12_2"
+format: 
+  pdf:
+    latex-engine: xelatex
+    mainfont: "NanumGothic"  # 예시로 나눔고딕 폰트를 사용
+editor: visual
+execute: 
+  warning: false
+---
+
+## 회귀분석
+
+-   simple regression: 설명변수가 1개.
+
+-   multiple regression: 설명변수가 2개 이상. 통제변수가 포함.
+
+-   수십개\~수백개의 통제변수가 포함.
+
+-   LLM(large language model): 7 billion parameters.
+
+-   교육의 수익률(return to schooling)의 추정
+
+-   Mincerian wage equation. 민서-타입의 임금방정식
+
+$$
+\log(w_i) = \beta_0 + \beta_1 edu_i + \gamma Z_i + e_i
+$$
+
+-   데이터(정보집합물) 로딩.
+
+```{r}
+rm(list = ls())
+library("tidyverse")
+
+labor_supply <- readr::read_csv("labor_supply.csv")
+
+```
+
+```{r}
+str(labor_supply)
+```
+
+-   w2edu 변수를 factor 로 전환한다.
+
+```{r}
+labor_supply$w2edu <- factor(labor_supply$w2edu,
+                             labels = c(
+                               "무학",
+                               "초졸",
+                               "중졸",
+                               "고졸",
+                               "전문대졸",
+                               "4년제대졸",
+                               "석사",
+                               "박사"
+                             ))
+
+labor_supply %>% 
+  group_by(w2edu) %>% 
+  summarise(count = n())
+```
+
+-   wage의 분포?
+
+```{r}
+labor_supply %>% 
+  ggplot(aes(x = wage_hourly)) +
+  geom_histogram(fill  = "white",
+                 color = "black") +
+  labs(
+    x = "Hourly Wage(시간당 임금)"
+  )
+```
+
+```{r}
+labor_supply %>% 
+  ggplot(aes(x = ln_wage_hourly)) +
+  geom_histogram(aes(y = ..density..), 
+                 fill  = "white",
+                 color = "black") +
+  geom_density(alpha = 0.2,
+               fill  = "#FF6666") +
+  labs(
+    x = "Log-Hourly Wage"
+  )
+```
+
+-   가로축: 연령, 세로축: 로그-시간당임금
+
+-   산포도, w2edu 값별로 다른 색으로.
+
+```{r}
+labor_supply %>% 
+  ggplot(aes(x = age, 
+             y = ln_wage_hourly)) +
+  geom_point(aes(color = w2edu)) +
+  geom_smooth(method  = "glm", # generalized lm
+              formula = y ~ poly(x,2), # 2차함수수
+              se      = FALSE) +       # 신뢰구간 
+  scale_color_brewer(palette = "RdYlBu")
+```
+
+-   OLS regression
+
+    ```{r}
+    lm.1 <- lm(ln_wage_hourly ~ age,
+       data = labor_supply)
+
+    lm.2 <- lm(ln_wage_hourly ~ age + I(age^2),
+       data = labor_supply)
+
+    ```
+
+```{r}
+library("stargazer")
+
+stargazer::stargazer(
+  lm.1, lm.2,
+  type = "text",
+  keep.stat = c("n", "rsq")
+)
+```
+
+-   한계수익 체감(diminishing marginal return)
+
+-   baseline model + education
+
+```{r}
+
+lm.3 <- lm(ln_wage_hourly~age+I(age^2)+w2edu,
+   data = labor_supply)
+
+stargazer::stargazer(
+  lm.1, lm.2, lm.3,
+  type = "text",
+  keep.stat = c("n", "rsq")
+)
+```
+
+```{r}
+
+lm.4 <- lm(ln_wage_hourly~age+I(age^2)+ educ_year,
+   data = labor_supply)
+
+stargazer::stargazer(
+  lm.1, lm.2, lm.4,
+  type = "text",
+  keep.stat = c("n", "rsq")
+)
+```
+
+```{r}
+library(xtable)
+options(xtable.floating = FALSE)
+options(xtable.timestamp = "")
+
+```
+
+```{r}
+xtable(lm.4)
+```
