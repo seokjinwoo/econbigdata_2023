@@ -1,10 +1,12 @@
-<div align="center">
-# 경제빅데이터분석 2024 📊
-**명지대 경제학과** 
-[![코스이름](https://img.shields.io/badge/경제-빅데이터분석론-blue?style=for-the-badge&logo=r&logoColor=white)]()
-</div>
+<h1 align="center">경제빅데이터분석 2024 📊</h1>
+<p align="center">
+  <strong>명지대 경제학과</strong><br>
+  <img src="https://img.shields.io/badge/경제-빅데이터분석론-blue?style=for-the-badge&logo=r&logoColor=white" alt="코스이름">
+</p>
+📌 2024년 1학기 동안 저와 함께 R을 이용하여 경제분석에서 자주 사용되는 빅데이터를 다루는 법을 배우겠습니다.
 
-📌 2024년 1학기 동안 저와 함께 R을 이용하여 경제분석에서 자주 사용되는 빅데이터를 다루는 법을 배우겠습니다. 
+
+📌 2024년 2학기 동안 저와 함께 R을 이용하여 경제분석에서 자주 사용되는 빅데이터를 다루는 법을 배우겠습니다. 
 
 --- 
 
