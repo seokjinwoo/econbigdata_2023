@@ -3,8 +3,6 @@
   <strong>명지대 경제학과</strong><br>
   <img src="https://img.shields.io/badge/경제-빅데이터분석론-blue?style=for-the-badge&logo=r&logoColor=white" alt="코스이름">
 </p>
-📌 2024년 1학기 동안 저와 함께 R을 이용하여 경제분석에서 자주 사용되는 빅데이터를 다루는 법을 배우겠습니다.
-
 
 📌 2024년 2학기 동안 저와 함께 R을 이용하여 경제분석에서 자주 사용되는 빅데이터를 다루는 법을 배우겠습니다. 
 
@@ -42,7 +40,7 @@
 | 5 | EDA 및 요약통계량 작성 | tidyverse |
 | 6 | ggplot2 소개 |visualization 1 |
 | 7 | ggplot2 소개 계속 | visualization 2|
-| 8 | 중간고사 |4월 22일, 24일 |
+| 8 | 중간고사 | 10월 26일 |
 | 9 | 회귀분석  | |
 | 10 | 회귀분석 | |
 | 11 | 시계열분석 | |
