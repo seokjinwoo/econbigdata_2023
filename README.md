@@ -54,3 +54,4 @@
 ## R과 Rstuido 의 설치
 - [R의 설치](https://cloud.r-project.org/)
 - [Rstudio의 설치](https://posit.co/products/open-source/rstudio/)
+- IDE로 positron 이나 Vscode, Cursor 를 사용해도 됩니다. 다만, 설치는 본인이 알아서 하는 걸로.
